@@ -10,6 +10,7 @@
 */
 
 // CODE HERE
+const sayHelloButton = document.querySelector(`#say-hello-button`);
 
 
 // PROBLEM 2
@@ -20,6 +21,11 @@
 */
 
 // CODE HERE
+
+sayHelloButton.addEventListener(`mouseover`, () => {
+    sayHelloButton.style.backgroundColor = `black`;
+    sayHelloButton.style.color = `white`;
+})
 
 
 // PROBLEM 3
@@ -32,6 +38,11 @@
 */
 
 // CODE HERE
+
+sayHelloButton.addEventListener(`mouseout`, () => {
+    sayHelloButton.style.backgroundColor = `#EFEFEF`;
+    sayHelloButton.style.color = `black`;
+})
 
 
 // PROBLEM 4
@@ -54,6 +65,8 @@ const sayHello = () => {
 
 // CODE HERE
 
+sayHelloButton.addEventListener(`click`, sayHello);
+
 
 // PROBLEM 5 
 /*
@@ -64,10 +77,30 @@ const sayHello = () => {
     Use axios inside the ohMy function to make a GET request to 'http://localhost:3000/animals' 
     
     Handle the promise that's returned with a .then, which you should pass a callback function to. Inside the callback function, console.log the response's data (in the intermediate instructions we'll come back to this function and add HTML).
-*/ 
+*/
+
+/* 
+    Back in the ohMy function on Problem 5, replace the console log in the promise's callback with a for loop that loops over res.data. 
+
+    On each iteration of the loop, create a new p element. Set its textContent equal the string at the current index (i) and then append the new p element onto the document's body. 
+*/
+
+
+const baseUrl = 'http://localhost:3000';
 
 const ohMy = () => {
-    // YOUR CODE HERE
+    axios.get(`${baseUrl}/animals`)
+    .then(res => {
+        let animalsArr = res.data;
+        for (let i = 0; i < animalsArr.length; i++) {
+            const newP = document.createElement(`p`);
+            newP.textContent = animalsArr[i];
+            document.querySelector(`body`).appendChild(newP);
+        }
+    })
+    .catch(err => {
+        console.log(err)
+    })
 }
 
 document.getElementById('animals-button').addEventListener('click', ohMy)
@@ -87,8 +120,18 @@ document.getElementById('animals-button').addEventListener('click', ohMy)
 */
 
 const repeatMyParam = () => {
-    //YOUR CODE HERE
+
+    axios.get(`${baseUrl}/repeat/axiosIsCool`)
+    .then(res => {
+        console.log(res.data);
+        document.getElementById(`repeat-text`).textContent = res.data;
+    })
+    .catch(err => {
+        console.log(err);
+    })
 }
+
+document.getElementById(`repeat-button`).addEventListener(`click`, repeatMyParam);
 
 // PROBLEM 7
 /*
@@ -98,7 +141,6 @@ const repeatMyParam = () => {
 */
 
 // Code in the repeatMyParam function above
-
 
 
 // PROBLEM 8
@@ -111,6 +153,17 @@ const repeatMyParam = () => {
 */
 
 // CODE HERE
+const queryTest = () => {
+    axios.get(`${baseUrl}/query-test/?name=john`)
+        .then(res => {
+            console.log(res.data);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
+
+document.querySelector(`#query-button`).addEventListener(`click`, queryTest)
 
 
 
