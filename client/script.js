@@ -152,9 +152,42 @@ document.getElementById(`repeat-button`).addEventListener(`click`, repeatMyParam
     Outside of your new function, select the button with the id "query-button" and add a click event listener that calls your function.
 */
 
+/*
+    In the function that you wrote for Problem 8, change the URL to test a couple different scenarios. 
+
+    1: Send no queries on the URL -- what happened? 
+
+    2: Send more than 1 query on the URL -- what happened? 
+*/
+
 // CODE HERE
+// const queryTest = () => {
+//     axios.get(`${baseUrl}/query-test/?name=john`)
+//         .then(res => {
+//             console.log(res.data);
+//         })
+//         .catch(err => {
+//             console.log(err);
+//         })
+// }
+
+// document.querySelector(`#query-button`).addEventListener(`click`, queryTest)
+
+// const queryTest = () => {
+//     axios.get(`${baseUrl}/query-test`)
+//         .then(res => {
+//             console.log(res.data);
+//         })
+//         .catch(err => {
+//             console.log(err);
+//         })
+// }
+
+// document.querySelector(`#query-button`).addEventListener(`click`, queryTest)
+
+
 const queryTest = () => {
-    axios.get(`${baseUrl}/query-test/?name=john`)
+    axios.get(`${baseUrl}/query-test/?name=john&name=sally&height=2ft`)
         .then(res => {
             console.log(res.data);
         })
@@ -164,7 +197,6 @@ const queryTest = () => {
 }
 
 document.querySelector(`#query-button`).addEventListener(`click`, queryTest)
-
 
 
 ////////////////
@@ -214,6 +246,39 @@ document.querySelector(`#query-button`).addEventListener(`click`, queryTest)
     Use a .then to handle the promise returned from the axios call. Pass a callback function to the .then. Inside that callback, console log the res.data. 
 
     Based on what we did earlier to display this type of data, write code that will display the response in your HTML document. 
-*/
+    */
+   
+   // CODE HERE 
+let foodArr = [];
 
-// CODE HERE 
+const createFood = (event) => {
+    event.preventDefault;
+
+    const foodInput = document.querySelector(`#food-input`).value;
+
+    let body = {
+        newFood: foodInput
+    }
+
+    axios.post(`${baseUrl}/food`, body)
+        .then(res => {
+            let tempFoodValue = res.data.length;
+            let foodValue = res.data;
+            
+            foodArr.push(foodValue[tempFoodValue - 1])
+
+            const newP = document.createElement(`p`);
+            for (let i = 0; i < foodArr.length; i++) {
+                newP.textContent = foodArr[i];
+                document.querySelector(`body`).appendChild(newP);
+            }
+
+            document.querySelector(`#food-input`).value = ``;
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
+
+// step 3 - add event listener
+document.querySelector(`#food-button`).addEventListener(`click`, createFood);
